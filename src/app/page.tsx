@@ -1,13 +1,19 @@
-import Link from "next/link";
+"use server";
 
-export default function Home() {
+const url = "http://localhost:3000/sample.json";
+
+async function getSampleDate() {
+  const resp = await fetch(url, { cache: "no-store" });
+  const result = await resp.json();
+  return result;
+}
+
+export default async function Home() {
+  const data = await getSampleDate();
   return (
     <main>
-      <h1 className="title">Top page</h1>
-      <p className="msg">This is other page sample.</p>
-      <div>
-        <Link href="/other">go other page</Link>
-      </div>
+      <h1 className="title">Index page</h1>
+      <p className="msg">{data.message}</p>
     </main>
   );
 }
